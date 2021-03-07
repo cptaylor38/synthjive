@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=ZCOOL+QingKe+HuangYou&display=swap');
+
 .synthjive__container {
   background: rgb(196, 0, 209);
   background: -moz-radial-gradient(
@@ -16,8 +18,9 @@
     rgba(129, 46, 230, 1) 100%
   );
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#c400d1",endColorstr="#812ee6",GradientType=1);
-  min-width: 100vw;
-  height: 100vh;
+  max-width: 100vw;
+  min-height: 100vh;
+  font-family: 'ZCOOL QingKe HuangYou', cursive;
 }
 
 .synth__nav__container {
@@ -31,48 +34,45 @@
 }
 
 .synth__main {
-  height: 100%;
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  grid-template-areas:
-    'rh rh rh a a sv sv sv sh sh sh sh'
-    'sn sn sn sn sn sn sn sn li li li li'
-    'kb kb kb kb kb kb kb kb li li li li';
+  min-height: 70vh;
   padding: 4rem;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 9fr 3fr;
+  gap: 30px;
+  width: 100%;
+}
+
+.synth__box {
+  color: #93d1ce;
+  background: #7b05f0;
+  padding: 1rem;
+  border-radius: 10px;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.gui__controls {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  grid-template-rows: 1fr;
   gap: 20px;
 }
 
-.synth--recordheader {
-  grid-area: 'rh';
-}
-
-.synth--slider {
-  grid-area: 'sl';
-}
-
-.synth--save {
-  grid-area: 'sv';
-}
-
 .synth--notes {
-  grid-area: 'sn';
+  grid-column: 1 / -1;
+  min-height: 20vh;
+}
+
+.gui__keyboard {
+  margin-top: 20px;
 }
 
 .synth--keyboard {
-  grid-area: 'kb';
-}
-
-.synth--savedheader {
-  grid-area: 'sh';
+  min-height: 40vh;
 }
 
 .synth--list {
-  grid-area: 'li';
-}
-
-.synth__container {
-  background: #93d1ce;
+  margin-top: 20px;
 }

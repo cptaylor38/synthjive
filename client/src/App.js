@@ -1,5 +1,5 @@
 import './App.css';
-import { Container } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 
 function App() {
 
@@ -12,13 +12,21 @@ function App() {
           </div>
         </nav>
         <main className='synth__main'>
-            <Container className="synth__container synth--recordheader"><h3>Record</h3></Container>
-            <Container className="synth__container synth--slider">Record slider</Container>
-            <Container className="synth__container synth--save">Save recording to local storage</Container>
-            <Container className="synth__container synth--notes">Notes/keys being recorded</Container>
-            <Container className="synth__container synth--keyboard">Keyboard</Container>
-            <Container className="synth__container synth--savedheader">Saved songs</Container>
-            <Container className="synth__container synth--list">List of saved songs</Container>
+          <section>
+            <div className='gui__controls'>
+              <Box className="synth__box synth--recordheader">Record</Box>
+              <Box className="synth__box synth--slider">Record slider</Box>
+              <Box className="synth__box synth--save">Save recording to local storage</Box>
+              <Box className="synth__box synth--notes">Notes/keys being recorded</Box>
+            </div>
+            <div className='gui__keyboard'>
+              <Box className="synth__box synth--keyboard">Keyboard</Box>
+            </div>
+          </section>
+          <aside>
+            <Box className="synth__box synth--savedheader">Saved songs</Box>
+            <Box className="synth__box synth--list">List of saved songs</Box>
+          </aside>
         </main>
       </div>
     </div>
