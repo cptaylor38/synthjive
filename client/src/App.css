@@ -50,7 +50,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 1.75em;
 }
 
 .gui__controls {
@@ -60,9 +60,13 @@
   gap: 20px;
 }
 
+.synth__record--label {
+  font-size: 1.75rem !important;
+}
+
 .synth--notes {
   grid-column: 1 / -1;
-  min-height: 20vh;
+  min-height: 10vh;
 }
 
 .gui__keyboard {
@@ -71,8 +75,32 @@
 
 .synth--keyboard {
   min-height: 40vh;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  justify-items: center;
+  background: rgba(66, 66, 66, 0.548);
+  column-gap: 10px;
 }
 
 .synth--list {
   margin-top: 20px;
+}
+
+@media (max-width: 700px) {
+  .synth__main {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+  .gui__controls {
+    grid-template-columns: 1fr;
+  }
+  .synth--keyboard {
+    min-height: 30vh;
+  }
+  .synth__box {
+    font-size: 1em;
+  }
+  .synth__record--label {
+    font-size: 1em !important;
+  }
 }
