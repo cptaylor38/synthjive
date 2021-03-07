@@ -1,0 +1,78 @@
+.synthjive__container {
+  background: rgb(196, 0, 209);
+  background: -moz-radial-gradient(
+    circle,
+    rgba(196, 0, 209, 1) 0%,
+    rgba(129, 46, 230, 1) 100%
+  );
+  background: -webkit-radial-gradient(
+    circle,
+    rgba(196, 0, 209, 1) 0%,
+    rgba(129, 46, 230, 1) 100%
+  );
+  background: radial-gradient(
+    circle,
+    rgba(196, 0, 209, 1) 0%,
+    rgba(129, 46, 230, 1) 100%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#c400d1",endColorstr="#812ee6",GradientType=1);
+  min-width: 100vw;
+  height: 100vh;
+}
+
+.synth__nav__container {
+  display: flex;
+  width: 100%;
+  background: #7b05f0;
+  justify-content: stretch;
+  color: #93d1ce;
+  padding: 1rem;
+  font-size: 3em;
+}
+
+.synth__main {
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-areas:
+    'rh rh rh a a sv sv sv sh sh sh sh'
+    'sn sn sn sn sn sn sn sn li li li li'
+    'kb kb kb kb kb kb kb kb li li li li';
+  padding: 4rem;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.synth--recordheader {
+  grid-area: 'rh';
+}
+
+.synth--slider {
+  grid-area: 'sl';
+}
+
+.synth--save {
+  grid-area: 'sv';
+}
+
+.synth--notes {
+  grid-area: 'sn';
+}
+
+.synth--keyboard {
+  grid-area: 'kb';
+}
+
+.synth--savedheader {
+  grid-area: 'sh';
+}
+
+.synth--list {
+  grid-area: 'li';
+}
+
+.synth__container {
+  background: #93d1ce;
+}
