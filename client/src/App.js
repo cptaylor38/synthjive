@@ -3,7 +3,7 @@ import { Box, Switch, FormControl, FormLabel } from '@chakra-ui/react';
 import Key from './Key';
 
 function App() {
-  const keystrokes = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';'];
+  const keystrokes = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
   return (
     <div className="App">
       <div className='synthjive__container'>
