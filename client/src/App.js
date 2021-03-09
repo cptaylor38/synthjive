@@ -1,6 +1,6 @@
 import './App.css';
 import React, {useState, useEffect} from 'react';
-import { Box, Switch, FormControl, FormLabel } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import Key from './Key';
 
 function App() {
@@ -34,12 +34,12 @@ function App() {
               <Box className="synth__box synth--play">Playback Notes</Box>
               <Box className="synth__box synth--save">Save recording to local storage</Box>
               <Box className="synth__box synth--notes">
-                <p>{}</p>
+                <p>recorded notes go here</p>
               </Box>
             </div>
             <div className='gui__keyboard'>
               <Box className="synth__box synth--keyboard">
-                {keystrokes.map((char, i)=> <Key key={i} text={char} />)}
+                {keystrokes.map((note, i)=> <Key key={i} text={note}/>)}
               </Box>
             </div>
           </section>
