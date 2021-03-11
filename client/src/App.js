@@ -1,6 +1,11 @@
 import './App.css';
-import React, {useState, useEffect} from 'react';
-import { Box } from '@chakra-ui/react';
+import React, {useState, useEffect, useRef} from 'react';
+import { Box, Button, AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay, } from '@chakra-ui/react';
 import Key from './Key';
 import a from './Assets/keyboardsounds/a.mp3';
 import s from './Assets/keyboardsounds/s.mp3';
@@ -15,6 +20,9 @@ import l from './Assets/keyboardsounds/l.mp3';
 function App() {
   const keystrokes = [ 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
   const [recordedKeys, setRecordedKeys] = useState([]);
+  const [isOpen, setIsOpen] = React.useState(false)
+  const onClose = () => setIsOpen(false)
+  const cancelRef = React.useRef()
 
   const _handleKeyUp = async (e) => {
     switch(e.code){
@@ -81,6 +89,10 @@ function App() {
     }
   }
 
+  const clearRecording = () => {
+    setRecordedKeys([]);
+  }
+
   const noteHelper = async (key) => {
     let audioDiv = document.getElementById('note-' + key);
     let keyDiv = document.getElementById('key-' + key);
@@ -96,6 +108,7 @@ function App() {
   }
 
   useEffect(()=> {
+    setIsOpen(true);
     document.addEventListener('keydown', _handleKeyDown);
     document.addEventListener('keyup', _handleKeyUp);
   }, [])
@@ -111,10 +124,36 @@ function App() {
         </nav>
         <main className='synth__main'>
           <section>
+            <AlertDialog
+                isOpen={isOpen}
+                leastDestructiveRef={cancelRef}
+                onClose={onClose}>
+              <AlertDialogOverlay>
+                <AlertDialogContent>
+                  <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                    Welcome!
+                  </AlertDialogHeader>
+
+                  <AlertDialogBody>
+                    Press the corresponding letters on the piano keys to get started!
+                  </AlertDialogBody>
+
+                  <AlertDialogFooter>
+                    <Button ref={cancelRef} onClick={onClose}>
+                      Close
+                    </Button>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialogOverlay>
+            </AlertDialog>
             <div className='gui__controls'>
               <Box className="synth__box synth--play">Playback Notes</Box>
               <Box className="synth__box synth--save">Save recording to local storage</Box>
-              <Box className='synth__box synth--clear'>Clear recording</Box>
+              <Box className='synth__box synth--clear'>
+                <Button colorScheme="#93d1ce" size='lg' variant="ghost" className='synth__btn--clear' onClick={clearRecording}>
+                  Clear Recording
+                </Button>
+              </Box>
               <Box className="synth__box synth--notes">
                 <p>{recordedKeys}</p>
               </Box>

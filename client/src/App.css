@@ -86,6 +86,15 @@
   margin-top: 20px;
 }
 
+.synth__btn--clear {
+  font-size: 1.5rem !important;
+}
+
+.synth__btn--clear:hover {
+  background: #93d1ce;
+  color: #7b05f0;
+}
+
 @media (max-width: 700px) {
   .synth__main {
     grid-template-columns: 1fr;
