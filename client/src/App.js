@@ -14,43 +14,93 @@ import l from './Assets/keyboardsounds/l.mp3';
 
 function App() {
   const keystrokes = [ 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
-  const [recordedKeys, setRecordedKeys] = useState();
+  const [recordedKeys, setRecordedKeys] = useState([]);
+
+  const _handleKeyUp = async (e) => {
+    switch(e.code){
+      case 'KeyA':
+        keyHelper('a');
+        break;
+      case 'KeyS':
+        keyHelper('s');
+        break;
+      case 'KeyD':
+        keyHelper('d');
+        break;
+      case 'KeyF':
+        keyHelper('f');
+        break;
+      case 'KeyG':
+        keyHelper('g');
+        break;
+      case 'KeyH':
+        keyHelper('h');
+        break;
+      case 'KeyJ':
+        keyHelper('j');
+        break;
+      case 'KeyL':
+        keyHelper('l');
+        break;
+      default:
+        return;
+    }
+  }
+
   const _handleKeyDown = async (e) => {
     switch(e.code){
       case 'KeyA':
-        document.getElementById('note-a').play();
+        noteHelper('a');
         break;
       case 'KeyS':
-        document.getElementById('note-s').play();
+        noteHelper('s');
         break;
       case 'KeyD':
-        document.getElementById('note-d').play();
+        noteHelper('d');
         break;
       case 'KeyF':
-        document.getElementById('note-f').play();
+        noteHelper('f');
         break;
       case 'KeyG':
-        document.getElementById('note-g').play();
+        noteHelper('g');
         break;
       case 'KeyH':
-        document.getElementById('note-h').play();
+        noteHelper('h');
         break;
       case 'KeyJ':
-        document.getElementById('note-j').play();
+        noteHelper('j');
         break;
       case 'KeyK':
-        document.getElementById('note-k').play();
+        noteHelper('k');
         break;
       case 'KeyL':
-        document.getElementById('note-l').play();
+        noteHelper('l');
         break;
       default:
         return; 
     }
   }
+
+  const noteHelper = async (key) => {
+    let audioDiv = document.getElementById('note-' + key);
+    let keyDiv = document.getElementById('key-' + key);
+    keyDiv.style.background = 'yellow';
+    audioDiv.currentTime = 0;
+    audioDiv.play();
+  }
+
+  const keyHelper = async (key) => {
+    let keyDiv = document.getElementById('key-' + key);
+    keyDiv.style.background = 'white';
+    setRecordedKeys(prevState => [...prevState, key])
+  }
+
   useEffect(()=> {
     document.addEventListener('keydown', _handleKeyDown);
+    document.addEventListener('keyup', _handleKeyUp);
   }, [])
+
+
   return (
     <div className="App">
       <div className='synthjive__container'>
@@ -64,8 +114,9 @@ function App() {
             <div className='gui__controls'>
               <Box className="synth__box synth--play">Playback Notes</Box>
               <Box className="synth__box synth--save">Save recording to local storage</Box>
+              <Box className='synth__box synth--clear'>Clear recording</Box>
               <Box className="synth__box synth--notes">
-                <p>recorded notes go here</p>
+                <p>{recordedKeys}</p>
               </Box>
             </div>
             <div className='gui__keyboard'>
