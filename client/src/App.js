@@ -19,6 +19,7 @@ import l from './Assets/keyboardsounds/l.mp3';
 function App() {
   const keystrokes = [ 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
   const [recordedKeys, setRecordedKeys] = useState([]);
+  const [savedTracks, setSavedTracks] = useState([]);
   const [isOpen, setIsOpen] = React.useState(false)
   const onClose = () => setIsOpen(false)
   const cancelRef = React.useRef()
@@ -89,6 +90,13 @@ function App() {
     keyHelper(note, true);
   }
 
+  const saveRecording = () => {
+    // setSavedTracks(savedTracks && savedTracks.length > 0 ? [...savedTracks, recordedKeys] : recordedKeys);
+    // if(recordedKeys.length > 0) localStorage.setItem('synthjive_recordings', savedTracks);
+    //massive memory leak here
+    //might need to use cookies instead of local storage and restructure recordings
+  }
+
   const playBack = async () => {
     if(recordedKeys.length > 0){
       for(let note of recordedKeys){
@@ -99,6 +107,8 @@ function App() {
 
   useEffect(()=> {
     setIsOpen(true);
+    let savedTracks = localStorage.getItem('synthjive_recordings');
+    setSavedTracks(savedTracks);
     document.addEventListener('keydown', _handleKeyDown);
     document.addEventListener('keyup', _handleKeyUp);
   }, [])
@@ -139,7 +149,11 @@ function App() {
                   Playback Recording
                 </Button>
               </Box>
-              <Box className="synth__box synth--save">Save recording to local storage</Box>
+              <Box className="synth__box synth--save">
+              <Button colorScheme="#93d1ce" size='lg' variant="ghost" className='synth__btn--clear' onClick={saveRecording}>
+                  Save Recording
+                </Button>
+              </Box>
               <Box className='synth__box synth--clear'>
                 <Button colorScheme="#93d1ce" size='lg' variant="ghost" className='synth__btn--clear' onClick={clearRecording}>
                   Clear Recording
@@ -166,7 +180,9 @@ function App() {
           </section>
           <aside>
             <Box className="synth__box synth--savedheader">Saved songs</Box>
-            <Box className="synth__box synth--list">List of saved songs</Box>
+            <Box className="synth__box synth--list">
+              {savedTracks && savedTracks.length > 0 ? savedTracks.map(track => <p>{track}</p>) : 'No recordings yet.'}
+            </Box>
           </aside>
         </main>
       </div>
