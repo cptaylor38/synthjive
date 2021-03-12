@@ -181,7 +181,7 @@ function App() {
           <aside>
             <Box className="synth__box synth--savedheader">Saved songs</Box>
             <Box className="synth__box synth--list">
-              {savedTracks && savedTracks.length > 0 ? savedTracks.map(track => <p>{track}</p>) : 'No recordings yet.'}
+              {/* {savedTracks && savedTracks.length > 0 ? savedTracks.map(track => <p>{track}</p>) : 'No recordings yet.'} */}
             </Box>
           </aside>
         </main>
