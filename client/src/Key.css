@@ -9,6 +9,11 @@
   text-align: center;
 }
 
+.keyboard__key:hover {
+  -webkit-box-shadow: 0px 8px 15px 5px #000000;
+  box-shadow: 0px 8px 15px 5px #000000;
+}
+
 .keyboard__key > p {
   margin-bottom: 20%;
   color: black;

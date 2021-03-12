@@ -95,6 +95,22 @@
   color: #7b05f0;
 }
 
+.synth__alert {
+  background: #7b05f0 !important;
+  color: #93d1ce !important;
+  font-size: 1.5em;
+}
+
+.synth__alert--btn {
+  background: #93d1ce !important;
+  color: #7b05f0 !important;
+}
+
+.synth__alert--btn:hover {
+  background: black !important;
+  color: white !important;
+}
+
 @media (max-width: 700px) {
   .synth__main {
     grid-template-columns: 1fr;

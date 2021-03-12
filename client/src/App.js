@@ -1,9 +1,8 @@
 import './App.css';
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect } from 'react';
 import { Box, Button, AlertDialog,
   AlertDialogBody,
   AlertDialogFooter,
-  AlertDialogHeader,
   AlertDialogContent,
   AlertDialogOverlay, } from '@chakra-ui/react';
 import Key from './Key';
@@ -24,69 +23,47 @@ function App() {
   const onClose = () => setIsOpen(false)
   const cancelRef = React.useRef()
 
-  const _handleKeyUp = async (e) => {
-    switch(e.code){
+
+  const mainController = async (key, action)=> {
+    switch(key){
       case 'KeyA':
-        keyHelper('a');
+        action('a', false);
         break;
       case 'KeyS':
-        keyHelper('s');
+        action('s', false);
         break;
       case 'KeyD':
-        keyHelper('d');
+        action('d', false);
         break;
       case 'KeyF':
-        keyHelper('f');
+        action('f', false);
         break;
       case 'KeyG':
-        keyHelper('g');
+        action('g', false);
         break;
       case 'KeyH':
-        keyHelper('h');
+        action('h', false);
         break;
       case 'KeyJ':
-        keyHelper('j');
+        action('j', false);
+        break;
+      case 'KeyK':
+        action('k', false);
         break;
       case 'KeyL':
-        keyHelper('l');
+        action('l', false);
         break;
       default:
         return;
     }
   }
 
+  const _handleKeyUp = async (e) => {
+    mainController(e.code, keyHelper)
+  }
+
   const _handleKeyDown = async (e) => {
-    switch(e.code){
-      case 'KeyA':
-        noteHelper('a');
-        break;
-      case 'KeyS':
-        noteHelper('s');
-        break;
-      case 'KeyD':
-        noteHelper('d');
-        break;
-      case 'KeyF':
-        noteHelper('f');
-        break;
-      case 'KeyG':
-        noteHelper('g');
-        break;
-      case 'KeyH':
-        noteHelper('h');
-        break;
-      case 'KeyJ':
-        noteHelper('j');
-        break;
-      case 'KeyK':
-        noteHelper('k');
-        break;
-      case 'KeyL':
-        noteHelper('l');
-        break;
-      default:
-        return; 
-    }
+    mainController(e.code, noteHelper)
   }
 
   const clearRecording = () => {
@@ -101,10 +78,23 @@ function App() {
     audioDiv.play();
   }
 
-  const keyHelper = async (key) => {
+  const keyHelper = async (key, isPlayback) => {
     let keyDiv = document.getElementById('key-' + key);
     keyDiv.style.background = 'white';
-    setRecordedKeys(prevState => [...prevState, key])
+    if(!isPlayback) setRecordedKeys(prevState => [...prevState, key]);
+  }
+
+  const playbackAssist = (note) => {
+    noteHelper(note);
+    keyHelper(note, true);
+  }
+
+  const playBack = async () => {
+    if(recordedKeys.length > 0){
+      for(let note of recordedKeys){
+        await playbackAssist(note);
+      }
+    }
   }
 
   useEffect(()=> {
@@ -129,17 +119,14 @@ function App() {
                 leastDestructiveRef={cancelRef}
                 onClose={onClose}>
               <AlertDialogOverlay>
-                <AlertDialogContent>
-                  <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                    Welcome!
-                  </AlertDialogHeader>
-
+                <AlertDialogContent className='synth__alert'>
+                  
                   <AlertDialogBody>
                     Press the corresponding letters on the piano keys to get started!
                   </AlertDialogBody>
 
                   <AlertDialogFooter>
-                    <Button ref={cancelRef} onClick={onClose}>
+                    <Button ref={cancelRef} onClick={onClose} className='synth__alert--btn'>
                       Close
                     </Button>
                   </AlertDialogFooter>
@@ -147,7 +134,11 @@ function App() {
               </AlertDialogOverlay>
             </AlertDialog>
             <div className='gui__controls'>
-              <Box className="synth__box synth--play">Playback Notes</Box>
+              <Box className="synth__box synth--play">
+              <Button colorScheme="#93d1ce" size='lg' variant="ghost" className='synth__btn--clear' onClick={playBack}>
+                  Playback Recording
+                </Button>
+              </Box>
               <Box className="synth__box synth--save">Save recording to local storage</Box>
               <Box className='synth__box synth--clear'>
                 <Button colorScheme="#93d1ce" size='lg' variant="ghost" className='synth__btn--clear' onClick={clearRecording}>
@@ -160,7 +151,7 @@ function App() {
             </div>
             <div className='gui__keyboard'>
               <Box className="synth__box synth--keyboard">
-                {keystrokes.map((note, i)=> <Key key={i} text={note} />)}
+                {keystrokes.map((note, i)=> <Key key={i} text={note} mouseDown={_handleKeyDown} mouseUp={_handleKeyUp} />)}
               </Box>
             </div>
             <audio id='note-a'><source src={a}></source></audio>
