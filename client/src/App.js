@@ -1,10 +1,10 @@
 import './App.css';
-import React, {useState, useEffect } from 'react';
+import React, {useState, useEffect, useRef } from 'react';
 import { Box, Button, AlertDialog,
   AlertDialogBody,
   AlertDialogFooter,
   AlertDialogContent,
-  AlertDialogOverlay, } from '@chakra-ui/react';
+  AlertDialogOverlay} from '@chakra-ui/react';
 import Key from './Key';
 import a from './Assets/keyboardsounds/a.mp3';
 import s from './Assets/keyboardsounds/s.mp3';
@@ -18,11 +18,12 @@ import l from './Assets/keyboardsounds/l.mp3';
 
 function App() {
   const keystrokes = [ 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
-  const [recordedKeys, setRecordedKeys] = useState([]);
+  const [notes, setNotes] = useState([]);
+  const [activeKeys, setActiveKeys] = useState({});
   const [savedTracks, setSavedTracks] = useState([]);
-  const [isOpen, setIsOpen] = React.useState(false)
+  const [isOpen, setIsOpen] = useState(false)
   const onClose = () => setIsOpen(false)
-  const cancelRef = React.useRef()
+  const cancelRef = useRef()
 
 
   const mainController = async (key, action)=> {
@@ -60,35 +61,52 @@ function App() {
   }
 
   const _handleKeyUp = async (e) => {
-    mainController(e.code, keyHelper)
+    mainController(e.code, keyHelper);
   }
 
   const _handleKeyDown = async (e) => {
-    mainController(e.code, noteHelper)
+    mainController(e.code, noteHelper);
   }
 
   const clearRecording = () => {
-    setRecordedKeys([]);
+    setNotes([]);
   }
 
   const noteHelper = async (key) => {
     let audioDiv = document.getElementById('note-' + key);
     let keyDiv = document.getElementById('key-' + key);
     keyDiv.style.background = 'yellow';
+    setActiveKeys(activeKeys => ({
+      ...activeKeys,
+      key: Date.now()
+    }));
     audioDiv.currentTime = 0;
     audioDiv.play();
   }
 
   const keyHelper = async (key, isPlayback) => {
+    let audioDiv = document.getElementById('note-' + key);
     let keyDiv = document.getElementById('key-' + key);
     keyDiv.style.background = 'white';
-    if(!isPlayback) setRecordedKeys(prevState => [...prevState, key]);
+    if(!isPlayback){
+      console.log(activeKeys[key])
+      setNotes(notes => ([
+        ...notes,
+        {
+          note: key,
+          time: activeKeys[key] - Date.now()
+        }
+      ]))
+    }
   }
 
   const playbackAssist = (note) => {
     noteHelper(note);
     keyHelper(note, true);
   }
+
+  useEffect(()=> console.log(notes), [notes])
+  useEffect(()=> console.log(activeKeys), [activeKeys])
 
   const saveRecording = () => {
     // setSavedTracks(savedTracks && savedTracks.length > 0 ? [...savedTracks, recordedKeys] : recordedKeys);
@@ -98,11 +116,7 @@ function App() {
   }
 
   const playBack = async () => {
-    if(recordedKeys.length > 0){
-      for(let note of recordedKeys){
-        await playbackAssist(note);
-      }
-    }
+    
   }
 
   useEffect(()=> {
@@ -144,23 +158,17 @@ function App() {
               </AlertDialogOverlay>
             </AlertDialog>
             <div className='gui__controls'>
-              <Box className="synth__box synth--play">
               <Button colorScheme="#93d1ce" size='lg' variant="ghost" className='synth__btn--clear' onClick={playBack}>
                   Playback Recording
-                </Button>
-              </Box>
-              <Box className="synth__box synth--save">
+              </Button>
               <Button colorScheme="#93d1ce" size='lg' variant="ghost" className='synth__btn--clear' onClick={saveRecording}>
                   Save Recording
-                </Button>
-              </Box>
-              <Box className='synth__box synth--clear'>
-                <Button colorScheme="#93d1ce" size='lg' variant="ghost" className='synth__btn--clear' onClick={clearRecording}>
+              </Button>
+              <Button colorScheme="#93d1ce" size='lg' variant="ghost" className='synth__btn--clear' onClick={clearRecording}>
                   Clear Recording
                 </Button>
-              </Box>
               <Box className="synth__box synth--notes">
-                <p>{recordedKeys}</p>
+                <p>{}</p>
               </Box>
             </div>
             <div className='gui__keyboard'>

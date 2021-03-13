@@ -88,11 +88,13 @@
 
 .synth__btn--clear {
   font-size: 1.5rem !important;
+  background: #7b05f0 !important;
+  color: #93d1ce !important;
 }
 
 .synth__btn--clear:hover {
-  background: #93d1ce;
-  color: #7b05f0;
+  background: #93d1ce !important;
+  color: #7b05f0 !important;
 }
 
 .synth__alert {
