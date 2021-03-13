@@ -18,9 +18,6 @@ import l from './Assets/keyboardsounds/l.mp3';
 
 function App() {
   const keystrokes = [ 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
-  const [notes, setNotes] = useState([]);
-  const [activeKeys, setActiveKeys] = useState({});
-  const [savedTracks, setSavedTracks] = useState([]);
   const [isOpen, setIsOpen] = useState(false)
   const onClose = () => setIsOpen(false)
   const cancelRef = useRef()
@@ -68,61 +65,21 @@ function App() {
     mainController(e.code, noteHelper);
   }
 
-  const clearRecording = () => {
-    setNotes([]);
-  }
-
   const noteHelper = async (key) => {
     let audioDiv = document.getElementById('note-' + key);
     let keyDiv = document.getElementById('key-' + key);
     keyDiv.style.background = 'yellow';
-    setActiveKeys(activeKeys => ({
-      ...activeKeys,
-      key: Date.now()
-    }));
     audioDiv.currentTime = 0;
     audioDiv.play();
   }
 
   const keyHelper = async (key, isPlayback) => {
-    let audioDiv = document.getElementById('note-' + key);
     let keyDiv = document.getElementById('key-' + key);
     keyDiv.style.background = 'white';
-    if(!isPlayback){
-      console.log(activeKeys[key])
-      setNotes(notes => ([
-        ...notes,
-        {
-          note: key,
-          time: activeKeys[key] - Date.now()
-        }
-      ]))
-    }
-  }
-
-  const playbackAssist = (note) => {
-    noteHelper(note);
-    keyHelper(note, true);
-  }
-
-  useEffect(()=> console.log(notes), [notes])
-  useEffect(()=> console.log(activeKeys), [activeKeys])
-
-  const saveRecording = () => {
-    // setSavedTracks(savedTracks && savedTracks.length > 0 ? [...savedTracks, recordedKeys] : recordedKeys);
-    // if(recordedKeys.length > 0) localStorage.setItem('synthjive_recordings', savedTracks);
-    //massive memory leak here
-    //might need to use cookies instead of local storage and restructure recordings
-  }
-
-  const playBack = async () => {
-    
   }
 
   useEffect(()=> {
     setIsOpen(true);
-    let savedTracks = localStorage.getItem('synthjive_recordings');
-    setSavedTracks(savedTracks);
     document.addEventListener('keydown', _handleKeyDown);
     document.addEventListener('keyup', _handleKeyUp);
   }, [])
@@ -157,20 +114,6 @@ function App() {
                 </AlertDialogContent>
               </AlertDialogOverlay>
             </AlertDialog>
-            <div className='gui__controls'>
-              <Button colorScheme="#93d1ce" size='lg' variant="ghost" className='synth__btn--clear' onClick={playBack}>
-                  Playback Recording
-              </Button>
-              <Button colorScheme="#93d1ce" size='lg' variant="ghost" className='synth__btn--clear' onClick={saveRecording}>
-                  Save Recording
-              </Button>
-              <Button colorScheme="#93d1ce" size='lg' variant="ghost" className='synth__btn--clear' onClick={clearRecording}>
-                  Clear Recording
-                </Button>
-              <Box className="synth__box synth--notes">
-                <p>{}</p>
-              </Box>
-            </div>
             <div className='gui__keyboard'>
               <Box className="synth__box synth--keyboard">
                 {keystrokes.map((note, i)=> <Key key={i} text={note} mouseDown={_handleKeyDown} mouseUp={_handleKeyUp} />)}
@@ -186,12 +129,6 @@ function App() {
             <audio id='note-k'><source src={k}></source></audio>
             <audio id='note-l'><source src={l}></source></audio>
           </section>
-          <aside>
-            <Box className="synth__box synth--savedheader">Saved songs</Box>
-            <Box className="synth__box synth--list">
-              {/* {savedTracks && savedTracks.length > 0 ? savedTracks.map(track => <p>{track}</p>) : 'No recordings yet.'} */}
-            </Box>
-          </aside>
         </main>
       </div>
     </div>

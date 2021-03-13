@@ -37,7 +37,7 @@
   min-height: 70vh;
   padding: 4rem;
   display: grid;
-  grid-template-columns: 9fr 3fr;
+  grid-template-columns: 12fr;
   gap: 30px;
   width: 100%;
 }
@@ -53,17 +53,6 @@
   font-size: 1.75em;
 }
 
-.gui__controls {
-  display: grid;
-  grid-template-columns: repeat(3, auto);
-  grid-template-rows: 1fr;
-  gap: 20px;
-}
-
-.synth__record--label {
-  font-size: 1.75rem !important;
-}
-
 .synth--notes {
   grid-column: 1 / -1;
   min-height: 10vh;
@@ -74,7 +63,7 @@
 }
 
 .synth--keyboard {
-  min-height: 40vh;
+  min-height: 70vh;
   display: grid;
   grid-template-columns: repeat(9, 1fr);
   justify-items: center;
@@ -84,17 +73,6 @@
 
 .synth--list {
   margin-top: 20px;
-}
-
-.synth__btn--clear {
-  font-size: 1.5rem !important;
-  background: #7b05f0 !important;
-  color: #93d1ce !important;
-}
-
-.synth__btn--clear:hover {
-  background: #93d1ce !important;
-  color: #7b05f0 !important;
 }
 
 .synth__alert {
@@ -118,16 +96,10 @@
     grid-template-columns: 1fr;
     padding: 1rem;
   }
-  .gui__controls {
-    grid-template-columns: 1fr;
-  }
   .synth--keyboard {
     min-height: 30vh;
   }
   .synth__box {
     font-size: 1em;
-  }
-  .synth__record--label {
-    font-size: 1em !important;
   }
 }
